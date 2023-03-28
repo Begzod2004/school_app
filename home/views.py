@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
+from django.http import JsonResponse
 from .models import Course, Teacher, Parent, Student, Registrar, Class, Lesson, Attendance, Payment
 from .serializers import *
 from rest_framework import generics
@@ -74,7 +75,7 @@ class CourseListCreateAPIView(APIView):
     def get(self, request):
         courses = Course.objects.all()
         serializer = CourseSerializer(courses, many=True)
-        return Response(serializer.data)
+        return JsonResponse({"data":serializer.data, "soni":courses.count()})
 
     def post(self, request):
         serializer = CourseSerializer(data=request.data)
@@ -114,7 +115,7 @@ class TeacherListCreateAPIView(APIView):
     def get(self, request):
         teachers = Teacher.objects.all()
         serializer = TeacherSerializer(teachers, many=True)
-        return Response(serializer.data)
+        return JsonResponse({"data":serializer.data, "soni":teachers.count()})
 
     def post(self, request):
         serializer = TeacherSerializer(data=request.data)
@@ -191,7 +192,7 @@ class StudentListCreateAPIView(APIView):
     def get(self, request):
         students = Student.objects.all()
         serializer = StudentSerializer(students, many=True)
-        return Response(serializer.data)
+        return JsonResponse({"data":serializer.data, "soni":students.count()})
 
     def post(self, request):
         serializer = StudentSerializer(data=request.data)
@@ -267,7 +268,7 @@ class ClassListCreateAPIView(APIView):
     def get(self, request):
         class_me = Class.objects.all()
         serializer = ClassSerializer(class_me, many=True)
-        return Response(serializer.data)
+        return JsonResponse({"data":serializer.data, "soni":class_me.count()})
 
     def post(self, request):
         serializer = ClassSerializer(data=request.data)
@@ -305,7 +306,7 @@ class LessonListCreateAPIView(APIView):
     def get(self, request):
         lesson = Lesson.objects.all()
         serializer = LessonSerializer(lesson, many=True)
-        return Response(serializer.data)
+        return JsonResponse({"data":serializer.data, "soni":lesson.count()})
 
     def post(self, request):
         serializer = LessonSerializer(data=request.data)
@@ -343,7 +344,7 @@ class AttendanceListCreateAPIView(APIView):
     def get(self, request):
         attendance = Attendance.objects.all()
         serializer = AttendanceSerializer(attendance, many=True)
-        return Response(serializer.data)
+        return JsonResponse({"data":serializer.data, "soni":attendance.count()})
 
     def post(self, request):
         serializer = LessonSerializer(data=request.data)
@@ -380,7 +381,7 @@ class PaymentListCreateAPIView(APIView):
     def get(self, request):
         payment = Payment.objects.all()
         serializer = PaymentSerializer(payment, many=True)
-        return Response(serializer.data)
+        return JsonResponse({"data":serializer.data, "soni":payment.count()})
 
     def post(self, request):
         serializer = PaymentSerializer(data=request.data)
@@ -394,9 +395,9 @@ class PaymentListCreateAPIView(APIView):
 class InvoiceListCreateAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]    
     def get(self, request):
-        Invoices = Invoice.objects.all()
-        serializer = InvoiceSerializer(Invoices, many=True)
-        return Response(serializer.data)
+        invoices = Invoice.objects.all()
+        serializer = InvoiceSerializer(invoices, many=True)
+        return JsonResponse({"data":serializer.data, "soni":invoices.count()})
 
     def post(self, request):
         serializer = InvoiceSerializer(data=request.data)
