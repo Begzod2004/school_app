@@ -70,7 +70,7 @@ class UserStudentCreateAPIView(generics.CreateAPIView):
 
 
 class CourseListCreateAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         courses = Course.objects.all()
@@ -85,7 +85,7 @@ class CourseListCreateAPIView(APIView):
         return Response(serializer.errors, status=400)
 
 class CourseRetrieveUpdateDestroyAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self, pk):
         return get_object_or_404(Course, pk=pk)

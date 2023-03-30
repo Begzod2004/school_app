@@ -11,10 +11,6 @@ from home.models import Student
 
 from django.utils.encoding import force_str, DjangoUnicodeDecodeError
 
-class StudentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Student
-        fields = '__all__'
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=6, max_length=68, write_only=True)
@@ -35,24 +31,6 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         del validated_data['password2']
         return User.objects.create_user(**validated_data)
-
-
-
-class UserStudentSerializer(serializers.ModelSerializer):
-    user_type = serializers.CharField(default='student')
-    student = StudentSerializer()
-
-    class Meta:
-        model = User
-        fields = ['id', 'user_type', 'full_name', 'username', 'date_of_birth', 'gender','student']
-
-    def create(self, validated_data):   
-        student_data = validated_data.pop('student')
-        user = User.objects.create(**validated_data)
-        Student.objects.create(user=user, **student_data)
-        return user
-
-
 
 
 

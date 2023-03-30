@@ -2,7 +2,6 @@ from django.urls import path, include
 from account.api.v1.views import *
 
 urlpatterns = [
-    path('UserStudent/', UserStudentCreateAPIView.as_view()),
     path('register/', AccountRegisterView.as_view()),
     path('login/', LoginView.as_view()),
     path('set-password-confirm/<str:uidb64>/<str:token>/', SetPasswordConfirmAPIView.as_view()),

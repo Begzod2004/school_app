@@ -18,20 +18,6 @@ from account.api.v1.serializers import RegisterSerializer, LoginSerializer, Acco
 from account.models import User
 from home.models import Student
 from rest_framework.generics import CreateAPIView
-from .serializers import UserStudentSerializer
-
-class UserStudentCreateAPIView(CreateAPIView):
-    serializer_class = UserStudentSerializer
-    
-    def perform_create(self, serializer):
-        user = serializer.save(user_type='student')
-        student_data = serializer.validated_data.get('student')
-        if student_data:
-            student = Student.objects.create(user=user, **student_data)
-        else:
-            student = Student.objects.create(user=user)
-        return student
-
 
 
 class AccountRegisterView(generics.GenericAPIView):
