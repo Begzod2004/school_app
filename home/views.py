@@ -429,3 +429,22 @@ class InvoiceRetrieveUpdateDestroyAPIView(APIView):
         Invoice = self.get_object(pk)
         Invoice.delete()
         return Response(status=204)
+    
+class LessonScheduleList(generics.ListCreateAPIView):
+    queryset = LessonSchedule.objects.all()
+    serializer_class = LessonScheduleSerializer
+
+class LessonScheduleDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = LessonSchedule.objects.all()
+    serializer_class = LessonScheduleSerializer
+
+
+class LessonScheduleCreate(generics.CreateAPIView):
+    queryset = LessonSchedule.objects.all()
+    serializer_class = LessonScheduleSerializer
+
+
+class LessonScheduleUpdate(generics.UpdateAPIView):
+    queryset = LessonSchedule.objects.all()
+    serializer_class = LessonScheduleSerializer
+    lookup_field = 'id'

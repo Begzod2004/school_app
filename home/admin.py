@@ -3,7 +3,7 @@ from .models import *
 from parler.admin import TranslatableAdmin
 # Register your models here.
 class CourseAdmin(TranslatableAdmin):
-    list_display = ['name', 'description', 'price']
+    list_display = ['name', 'description']
 
 
 

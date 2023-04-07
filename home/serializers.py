@@ -137,3 +137,12 @@ class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
         fields = '__all__'
+
+
+class LessonScheduleSerializer(serializers.ModelSerializer):
+    class_name = ClassSerializer()
+    teacher_name = TeacherSerializer()
+
+    class Meta:
+        model = LessonSchedule
+        fields = ['id', 'class_name', 'day_of_week', 'start_time', 'end_time', 'teacher_name']

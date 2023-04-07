@@ -7,63 +7,12 @@ from django.contrib.auth.models import BaseUserManager
 from account.models import *
 from datetime import date
 
-# class UserManager(BaseUserManager):
-#     """Manager for users."""
 
-#     def create_user(self, email, password=None, **extra_fields):
-#         """Create, save and return a new user."""
-#         if not email:
-#             raise ValueError('User must have an email address.')
-#         user = self.model(email=self.normalize_email(email), **extra_fields)
-#         user.set_password(password)
-#         user.save(using=self._db)
-
-#         return user
-
-#     def create_superuser(self, email, password, **extra_fields):
-#         """Create and return a new superuser."""
-#         extra_fields.setdefault('is_staff', True)   
-#         extra_fields.setdefault('is_superuser', True)
-
-#         if extra_fields.get('is_staff') is not True:
-#             raise ValueError('Superuser must have is_staff=True.')
-#         if extra_fields.get('is_superuser') is not True:
-#             raise ValueError('Superuser must have is_superuser=True.')
-
-#         return self.create_user(email, password, **extra_fields)
-
-# class User(AbstractUser):
-#     USER_TYPE_CHOICES = (
-#         ('admin', 'Admin'),
-#         ('teacher', 'Teacher'),
-#         ('student', 'Student'),
-#         ('parent', 'Parent'),
-#         ('registrar', 'Registrar'),
-#     )
-
-#     user_type = models.CharField(choices=USER_TYPE_CHOICES, max_length=20)
-#     full_name = models.CharField(max_length=255)
-#     username = models.CharField(max_length=255, unique=True)
-#     date_of_birth = models.DateField(null=True, blank=True)
-#     gender = models.CharField(max_length=10, null=True, blank=True)
-#     objects = UserManager()
-#     USERNAME_FIELD = 'username'
-
-#     def __str__(self):
-#         return self.full_name
-    
-#     class Meta:
-#         verbose_name = "Foydalanuvchi"
-#         verbose_name_plural = "Foydalanuvchilar"
-
-    
-
-class Course(TranslatableModel):
+class Course(TranslatableModel): # Fan qaysiligi
     translations = TranslatedFields(
         name = models.CharField(max_length=100, verbose_name=_('Nomi')),
         description = models.TextField(verbose_name=_('Qisqacha malumot'))
     )
-    price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name=_('Narxi'))
 
     def __str__(self):
         return self.name
@@ -110,10 +59,10 @@ class Registrar(models.Model):
         return self.user.full_name
 
 
-class Class(models.Model):
+class Class(models.Model): # Dars otadigan Sinif 
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE) # Darsda otiladigan fanlar
     start_date = models.DateField()
     end_date = models.DateField()
 
@@ -146,7 +95,7 @@ class Group(models.Model):
 
     def __str__(self):
         return self.name
-
+    
 class Invoice(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -157,7 +106,6 @@ class Invoice(models.Model):
 
     @property
     def is_past_due(self):
-        
         return date.today() > self.due_date and not self.is_paid
 
     def save(self, *args, **kwargs):
@@ -184,4 +132,25 @@ class Announcement(models.Model):
 
     def __str__(self):
         return self.title
+
+DAYS_OF_WEEK = (
+    ('Monday', 'Monday'),
+    ('Tuesday', 'Tuesday'),
+    ('Wednesday', 'Wednesday'),
+    ('Thursday', 'Thursday'),
+    ('Friday', 'Friday'),
+    ('Saturday', 'Saturday'),
+    ('Sunday', 'Sunday'),
+)
+
+class LessonSchedule(models.Model): # Dars jadvali
+    class_name = models.ForeignKey(Class, on_delete=models.CASCADE)
+    day_of_week = models.CharField(choices=DAYS_OF_WEEK, max_length=20)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.class_name} - {self.day_of_week} - {self.start_time} to {self.end_time}"
+
 

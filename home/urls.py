@@ -36,4 +36,9 @@ urlpatterns = [
     path('Invoice/<int:pk>/', InvoiceRetrieveUpdateDestroyAPIView.as_view(), name='invoice_retrieve_update_destroy'),
 
     path('payment/', PaymentListCreateAPIView.as_view(), name='attendance_list_create'),
+
+    path('lesson-schedules/', LessonScheduleList.as_view(), name='lessonschedule-list'),
+    path('lesson-schedules/<int:pk>/', LessonScheduleDetail.as_view(), name='lessonschedule-detail'),
+    path('lessons/update/<int:id>/', LessonScheduleUpdate.as_view(), name='lesson-update'),
+    path('lesson/create', LessonScheduleCreate.as_view(), name='lesson-create')
 ]
