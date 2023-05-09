@@ -144,13 +144,3 @@ class LessonScheduleSerializer(serializers.ModelSerializer):
         model = LessonSchedule
         fields = ['id', 'class_name', 'day_of_week', 'start_time', 'end_time', 'teacher_name']
 
-
-
-
-
-
-
-
-
-
-

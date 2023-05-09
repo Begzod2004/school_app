@@ -39,7 +39,6 @@ class Student(models.Model):
     courses = models.ManyToManyField(Course)
     teachers = models.ManyToManyField(Teacher)
     attendance = models.ManyToManyField('Lesson')
-    groups = models.ManyToManyField('Group')
     phone_number = PhoneNumberField(blank=True, null=True, verbose_name=_("Telefon raqami"), help_text=_("O'zbekiston telefon raqamini kiriting"))
 
     def __str__(self):
