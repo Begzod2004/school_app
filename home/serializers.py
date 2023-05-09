@@ -1,13 +1,10 @@
 from rest_framework import serializers
 from .models import *
-from parler_rest.serializers import TranslatableModelSerializer
-from parler_rest.fields import TranslatedFieldsField
 from account.api.v1.serializers import RegisterSerializer
 
 
 
-class CourseSerializer(TranslatableModelSerializer):
-    translations = TranslatedFieldsField(shared_model=Course)
+class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
@@ -146,3 +143,14 @@ class LessonScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = LessonSchedule
         fields = ['id', 'class_name', 'day_of_week', 'start_time', 'end_time', 'teacher_name']
+
+
+
+
+
+
+
+
+
+
+

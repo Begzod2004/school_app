@@ -10,68 +10,11 @@ from rest_framework.response import Response
 from account.models import User
 from .serializers import  StudentSerializer
 from account.api.v1.serializers import RegisterSerializer
-# from account.api.v1.serializers import UserSerializer
-
-# class UserListCreateAPIView(APIView):
-#     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
-#     def get(self, request):
-#         users = User.objects.all()
-#         serializer = UserSerializer(users, many=True)
-#         return Response(serializer.data)
-
-#     def post(self, request):
-#         serializer = UserSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=201)
-#         return Response(serializer.errors, status=400)
-
-# class UserRetrieveUpdateDestroyAPIView(APIView):
-#     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
-#     def get_object(self, pk):
-#         return get_object_or_404(User, pk=pk)
-
-#     def get(self, request, pk):
-#         user = self.get_object(pk)
-#         serializer = UserSerializer(user)
-#         return Response(serializer.data)
-
-#     def put(self, request, pk):
-#         user = self.get_object(pk)
-#         serializer = UserSerializer(user, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=400)
-
-#     def delete(self, request, pk):
-#         user = self.get_object(pk)
-#         user.delete()
-#         return Response(status=204)
-
-
-class UserStudentCreateAPIView(generics.CreateAPIView):
-    serializer_class = StudentSerializer
-
-    def post(self, request, *args, **kwargs):
-        user_serializer = RegisterSerializer(data=request.data)
-        student_serializer = self.serializer_class(data=request.data)
-
-        if user_serializer.is_valid() and student_serializer.is_valid():
-            user = user_serializer.save(user_type='student')
-            student = student_serializer.save(user=user)
-
-            return Response({'user': user_serializer.data, 'student': student_serializer.data})
-
-        return Response({'errors': user_serializer.errors + student_serializer.errors})
-
 
 
 class CourseListCreateAPIView(APIView):
     # permission_classes = [permissions.IsAuthenticated]
-
+                                                                                                                               
     def get(self, request):
         courses = Course.objects.all()
         serializer = CourseSerializer(courses, many=True)
@@ -79,6 +22,7 @@ class CourseListCreateAPIView(APIView):
 
     def post(self, request):
         serializer = CourseSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)

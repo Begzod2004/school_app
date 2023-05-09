@@ -8,19 +8,13 @@ from account.models import *
 from datetime import date
 
 
-class Course(TranslatableModel): # Fan qaysiligi
-    translations = TranslatedFields(
-        name = models.CharField(max_length=100, verbose_name=_('Nomi')),
-        description = models.TextField(verbose_name=_('Qisqacha malumot'))
-    )
+class Course(models.Model): # Fan qaysiligi
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+
 
     def __str__(self):
         return self.name
-    
-    class Meta:
-        verbose_name = "Kurs"
-        verbose_name_plural = "Kurslar"
-
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

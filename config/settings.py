@@ -32,8 +32,6 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_filters',
 
-
-    'parler',
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_yasg',
