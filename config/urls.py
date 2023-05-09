@@ -13,9 +13,9 @@ from rest_framework_simplejwt.views import (
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="My Partfolia",
-        default_version='v1',
-        description="Its my simple portfolio site",
+        title="CRM sistem",
+        default_version='v2',
+        description="CRM sistem",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="contact@snippets.local"),
         license=openapi.License(name="BSD License"),
