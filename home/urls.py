@@ -40,5 +40,6 @@ urlpatterns = [
     path('lesson-schedules/', LessonScheduleList.as_view(), name='lessonschedule-list'),
     path('lesson-schedules/<int:pk>/', LessonScheduleDetail.as_view(), name='lessonschedule-detail'),
     path('lessons/update/<int:id>/', LessonScheduleUpdate.as_view(), name='lesson-update'),
-    path('lesson/create', LessonScheduleCreate.as_view(), name='lesson-create')
+    path('lesson-schedules/create/', LessonScheduleCreate.as_view(), name='lesson-create'),
+    path('llllllllllllllll/',  payment_list_view)
 ]

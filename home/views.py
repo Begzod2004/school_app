@@ -10,6 +10,8 @@ from rest_framework.response import Response
 from account.models import User
 from .serializers import  StudentSerializer
 from account.api.v1.serializers import RegisterSerializer
+from rest_framework.decorators import api_view
+from rest_framework.parsers import FormParser, MultiPartParser
 
 
 class CourseListCreateAPIView(APIView):
@@ -54,12 +56,25 @@ class CourseRetrieveUpdateDestroyAPIView(APIView):
 
 
 class TeacherListCreateAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         teachers = Teacher.objects.all()
-        serializer = TeacherSerializer(teachers, many=True)
-        return JsonResponse({"data":serializer.data, "soni":teachers.count()})
+        print(teachers)
+        serializers_data = TeacherSerializer(teachers, many=True).data
+        data = {
+            "soni": f"Ustozlarning jami soni {len(teachers)} ustozlar",
+            "teachers": serializers_data
+        }
+        return Response(data)
+    
+        # serializer = TeacherSerializer(teachers, many=True)
+        # return JsonResponse({"data":serializer.data, "soni":teachers.count()})
+    
+    # def get(self, request):
+    #     teachers = Teacher.objects.all()
+    #     serializer = TeacherSerializer(teachers, many=True)
+    #     return JsonResponse({"data":serializer.data, "soni":teachers.count()})
 
     def post(self, request):
         serializer = TeacherSerializer(data=request.data)
@@ -215,11 +230,28 @@ class ClassListCreateAPIView(APIView):
         return JsonResponse({"data":serializer.data, "soni":class_me.count()})
 
     def post(self, request):
-        serializer = ClassSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)    
+        # serializer = TeacherSerializer(data=request.data)
+        data = request.data
+        serializers = TeacherSerializer(data=data)
+        if serializers.is_valid():
+            teacher = serializers.save()
+            data = {"status": f"bu yerda {len(teacher)} ta oqituvchi bor endi",
+                    "teacher": teacher
+                    }
+            return Response(data)
+
+
+
+
+
+
+
+    # def post(self, request):
+    #     serializer = ClassSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=201)
+    #     return Response(serializer.errors, status=400)    
 
 class ClassRetrieveUpdateDestroyAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]    
@@ -384,11 +416,20 @@ class LessonScheduleDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class LessonScheduleCreate(generics.CreateAPIView):
+    parser_classes = (FormParser, MultiPartParser)
     queryset = LessonSchedule.objects.all()
-    serializer_class = LessonScheduleSerializer
-
+    serializer_class = LessonScheduleCreateSerializer
+        
 
 class LessonScheduleUpdate(generics.UpdateAPIView):
     queryset = LessonSchedule.objects.all()
     serializer_class = LessonScheduleSerializer
     lookup_field = 'id'
+
+
+@api_view(['Get'])
+def payment_list_view(request, *args, **kwargs):
+    payment = Payment.objects.all()
+    serializer = PaymentSerializer(payment, many=True)
+    return Response(serializer.data)
+

@@ -137,10 +137,22 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
 
 class LessonScheduleSerializer(serializers.ModelSerializer):
-    class_name = ClassSerializer()
-    teacher_name = TeacherSerializer()
+    class_name = ClassSerializer(read_only=True)
+    teacher_name = TeacherSerializer(read_only=True)
 
     class Meta:
         model = LessonSchedule
         fields = ['id', 'class_name', 'day_of_week', 'start_time', 'end_time', 'teacher_name']
+        # extra
 
+    def validate(self, attrs):
+        class_name = attrs.get("class_name", None)
+        print(class_name)
+        return super().validate(attrs)
+    
+
+
+class LessonScheduleCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LessonSchedule
+        fields = "__all__"

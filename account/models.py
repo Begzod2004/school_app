@@ -59,8 +59,8 @@ class User(AbstractUser):
         return self.full_name
     
     class Meta:
-        verbose_name = "Foydalanuvchi"
-        verbose_name_plural = "Foydalanuvchilar"
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
     
 
